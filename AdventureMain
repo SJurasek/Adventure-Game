@@ -30,7 +30,7 @@ public class AdventureMain {
 		Scanner kb = new Scanner(System.in);
 		System.out.println("Welcome to Zoink!");
 		System.out.println(currentRoom.getTitle());
-		System.out.println("================");
+		System.out.println("==================="); //more equals needed
 		System.out.println(currentRoom.getDesc() + "\n");
 		
 		StringBuilder com = new StringBuilder("hello world!");
