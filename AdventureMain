@@ -1,0 +1,464 @@
+package textAdventure;
+
+/* A long time ago, in a kingdom far far away...
+ * - You find Shaquille O'Neal, who wants you to kill the king so that he can reclaim his rightful throne
+ * - promises to reward you
+ * - You win 1 season pass to the LA Lakers games.
+ */
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
+
+public class AdventureMain {
+	
+	public static void main(String[] args){
+		new AdventureMain();
+	}
+	
+	boolean end = false;
+	HashMap<String, Room> roomList = new HashMap<String, Room>();
+	Player player = new Player();
+	Room currentRoom;
+	ArrayList<Item> inventory = new ArrayList<Item>();
+	
+	AdventureMain(){
+		Room.setUpRooms(roomList);
+		currentRoom = roomList.get("gates");
+		Item.makeItems(roomList);
+		
+		Scanner kb = new Scanner(System.in);
+		System.out.println("Welcome to Zoink!");
+		System.out.println(currentRoom.getTitle());
+		System.out.println("================");
+		System.out.println(currentRoom.getDesc() + "\n");
+		
+		StringBuilder com = new StringBuilder("hello world!");
+		while(!end){
+			
+			System.out.print(">");
+			com = new StringBuilder(kb.nextLine().toLowerCase());
+			command(com);
+			
+			for(Item z : currentRoom.itemList){
+				if(z.name == "Seagull"){
+					if(z.dead){
+						System.out.println("The gods smite you for your sinful actions.");
+						System.out.println("You have died. Game Over.");
+						System.exit(0);
+					}
+				}
+			}
+		}
+		System.out.println("done");
+	}
+	
+	
+	//moves to room
+	void moveToRoom(String dir){
+		String newRoom = currentRoom.getExit(dir);
+		
+		if(newRoom.length() == 0){
+			System.out.println("You can't go that way.");
+			return;
+		}
+		
+		if(roomList.get(newRoom).isLocked){
+			System.out.println("That room is locked!");
+			return;
+		}
+		
+		if(roomList.get(newRoom) == currentRoom){
+			System.out.println(currentRoom.getTitle());
+			System.out.println("================");
+		} else {
+			currentRoom = roomList.get(newRoom);
+			System.out.println(currentRoom.getTitle());
+			System.out.println("================");
+			System.out.println(currentRoom.getDesc());
+		}
+	}
+	
+	void unlockItem(String itemName, String keyName){
+		
+	}
+	
+	//takes an item in the room
+	void takeItem(String itemName) {
+		itemName = itemName.trim(); // remove trailing spaces
+		if(itemName.length() == 0) {
+			System.out.println("Take what?");
+			return;
+		}
+		//see if item is in the room
+		for(Item z : currentRoom.itemList) {
+			if (z.name.toLowerCase().contains(itemName)){
+				if(! z.isCarryable){
+					System.out.println("You can't carry that");
+					return;
+				}
+				inventory.add(z);
+				currentRoom.itemList.remove(z);
+				System.out.println("You picked up the " + itemName);
+				return;
+			}
+		}
+		System.out.println("There is no " + itemName + " here.");
+	}
+	
+	//drops an item into the room
+	void dropItem(String itemName) {
+		itemName = itemName.trim();
+		if(itemName.length() == 0) {
+			System.out.println("Take what?");
+			return;
+		}
+		for(Item z : inventory){
+			if (z.name.contains(itemName)){
+				inventory.remove(z);
+				currentRoom.itemList.add(z);
+				System.out.println("You put down the " + itemName);
+				return;
+			}
+		}
+		System.out.println("There is no " + itemName + " in your inventory.");
+	}
+	
+	//displays user inventory
+	void displayInventory() {
+		System.out.println("Inventory");
+		System.out.println("===========");
+		
+		if(inventory.size() == 0){
+			System.out.println("You have nothing in your fanny pack.");
+			return;
+		}
+		for(Item z : inventory){
+			System.out.println(z.name);
+		}
+	}
+	
+	//Executes word trimmer and then executes command
+	void command (StringBuilder com){
+		com = goodWords(com); // Get rid of unimportant words
+		execute(com); // Execute command
+	}
+	
+	//Inspect item to show name and description
+	void inspect(String itemName){
+		itemName = itemName.trim();
+		for(Item z : currentRoom.itemList){
+			if(z.name.toLowerCase().contains(itemName)){
+				System.out.println(z.name+" - "+z.description);
+				return;
+			} else {
+				for(Item y : inventory){
+					if(y.name.toLowerCase().contains(itemName)){
+						System.out.println(y.name+" - "+y.description);
+						return;
+					}
+				}
+			}
+		}
+		System.out.println("I don't see a " + itemName + " here");
+	}
+	
+	//Sets an item death boolean to true with a weapon item
+	void kill(String weapon, String victim){
+		victim = victim.trim();
+		weapon = weapon.trim();
+		for(Item z : currentRoom.itemList) {
+			if(z.name.toLowerCase().contains(victim)){
+				if(z.living){
+					for(Item y : inventory){
+						if(y.name.toLowerCase().contains(weapon)){
+							if(y.weapon){
+								z.dead = true;
+								return;
+							} else {
+								System.out.println("You can't kill " + z.name + "with that.");
+							}
+						} else {
+							System.out.println("That weapon is not in your inventory.");
+						}
+					}
+				} else {
+					System.out.println("You can't kill something that isn't alive.");
+				}
+			} else {
+				System.out.println("I don't see anything like that here.");
+			}
+		}
+	}
+	
+	void unlockDoor(String door){
+		door = door.trim();
+		for(int i=0; i<currentRoom.exits.length; i++){
+			if(currentRoom.exits[i] != ""){
+				if(roomList.get(currentRoom.exits[i]).getTitle().toLowerCase().contains(door)){
+					if(roomList.get(currentRoom.exits[i]).isLocked){
+						for(Item z : inventory){
+							if(z.key){
+								if(z.name == roomList.get(currentRoom.exits[i]).keyName){
+									roomList.get(currentRoom.exits[i]).isLocked = false;
+									System.out.println("You unlocked the door to " + roomList.get(currentRoom.exits[i]).getTitle() + "!");
+									return;
+								} else {
+									System.out.println("You don't have the correct key for that.");
+									return;
+								}
+							} else {
+								System.out.println("You don't have any keys.");
+								return;
+							}
+						}
+					} else {
+						System.out.println("That room is unlocked, you can just walk in!");
+						return;
+					}
+				}
+			}
+		}
+		System.out.println("I don't see the room " + door + " here.");
+	}
+	
+	//Executes specific commands
+	void execute(StringBuilder com){
+		String text = com.toString().trim().toLowerCase();
+		String words[] = text.split(" ");
+		switch(words.length){
+		case 1:
+			switch(words[0]){
+			case "south": case "north": case "east": case "west": case "up": case "down":
+			case "s": case "n": case "e": case "w": case "u": case "d":
+				moveToRoom(words[0]);
+				break;
+			case "i": case "inventory": case "inv": case "items": case "item":
+				displayInventory();
+				break;
+			case "exit":
+				System.exit(0);
+				break;
+			case "help":
+				// Helpful stuff
+				break;
+			case "info":
+				// Room info
+				break;
+			case "bird":
+				System.out.println("Everybody knows that the bird is the word!");
+				break;
+			default: 
+				System.out.println("What?");
+			}
+			break;
+		case 2:
+			switch(words[0]){
+			case "inspect":
+				inspect(words[1]);
+				break;
+			case "go": case "travel": case "head": case "walk": 
+				switch(words[1]){
+				case "north": case "south": case "east": case "west": case "up": case "down":
+				case "n": case "s": case "e": case "w": case "u": case "d":
+					moveToRoom(words[1]);
+					break;
+				default:
+					System.out.println("What direction is that?");
+					break;
+				}
+				break;
+			case "take": case "pickup":
+				takeItem(words[1]);
+				break;
+			case "destroy": case "break":
+				// destroy/break words[1]
+				break;
+			case "drop":
+				dropItem(words[1]);
+				break;
+			case "open": case "unlock":
+				unlockDoor(words[1]);
+				break;
+			default:
+				System.out.println("You what?");
+				break;
+			}
+			break;
+		case 3:
+			switch(words[0]){
+			case "look":
+				switch(words[1]){
+				case "at":
+					inspect(words[1]);
+				default:
+					System.out.println("Look what?");
+				}
+				break;
+			case "kill": case "murder":
+				kill(words[2], words[1]);
+				break;
+			case "open":
+				// open words[1] with words[2]
+				break;
+			case "pick":
+				switch(words[1]){
+				case "up":
+					takeItem(words[2]);
+					break;
+				default:
+					System.out.println("Pick what?");
+				}
+				break;
+			case "put":
+				switch(words[1]){
+				case "down":
+					dropItem(words[2]);
+					break;
+				default:
+					System.out.println("Put what?");
+				}
+				break;
+			default:
+				System.out.println("What was that?");
+				break;
+			} break;
+		default: 
+			System.out.println("Does not compute.");
+			break;
+		}
+	}
+	
+	// Which words do we remove from the command?
+	static StringBuilder goodWords(StringBuilder com){
+		for(int i=0; i<com.length(); i++){ // Checks through all the command
+			
+			if(i < com.length()-5){ // 4-letter words
+				if((com.charAt(i) == 's' && com.charAt(i+1) == 'o' && com.charAt(i+2) == 'm' && com.charAt(i+3) == 'e')
+					||	(com.charAt(i) == 'w' && com.charAt(i+1) == 'i' && com.charAt(i+2) == 't' && com.charAt(i+3) == 'h')){ // Check for "some" or "with"
+					if(i < com.length()-6){
+						if(com.charAt(i+4) == ' '){
+							if(i > 0){
+								if(com.charAt(i-1) == ' '){	// Making sure the letters are their own word.
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);	// remove word and proper spaces from the string
+									i=0;
+								}
+							} else if(i == 0){
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								i=0;
+							}
+						}
+					} else if(i == com.length()-5 && i > 0){
+						if(com.charAt(i-1) == ' '){
+							com.deleteCharAt(i);
+							com.deleteCharAt(i);
+							com.deleteCharAt(i);
+							com.deleteCharAt(i);
+							com.deleteCharAt(i-1);
+							i=0;
+						}
+					}
+				} // Once the word has been removed we 'reset' the for loop and scan with the new String length.
+			}
+			
+			if(i < com.length()-4){ // Three-letter words
+				if(com.charAt(i) == 't' && com.charAt(i+1) == 'h' && com.charAt(i+2) == 'e'){
+					if(i < com.length()-5){
+						if(com.charAt(i+3) == ' '){
+							if(i > 0){
+								if(com.charAt(i-1) == ' '){
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									i=0;
+								}
+							} else if(i == 0){
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								i=0;
+							}
+						}
+					} else if(i == com.length()-4 && i > 0){
+						if(com.charAt(i-1) == ' '){
+							com.deleteCharAt(i);
+							com.deleteCharAt(i);
+							com.deleteCharAt(i);
+							com.deleteCharAt(i-1);
+							i=0;
+						}
+					}
+				}
+			}
+			
+			if(i < com.length()-3){ // two letter words
+				if((com.charAt(i) == 'a' && com.charAt(i+1) == 'n') || (com.charAt(i) == 't' && com.charAt(i+1) == 'o')
+						|| (com.charAt(i) == 'o' && com.charAt(i+1) == 'n' || (com.charAt(i) == 'm' && com.charAt(i+1) == 'y') 
+						|| (com.charAt(i) == 'i' && com.charAt(i+1) == 'n'))){
+					if(i < com.length()-4){
+						if(com.charAt(i+2) == ' '){
+							if(i > 0){
+								if(com.charAt(i-1) == ' '){
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									i=0;
+								}
+							} else if(i == 0){
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								i=0;
+							}
+						}
+					} else if(i == com.length()-3 && i > 0){
+						if(com.charAt(i-1) == ' '){
+							com.deleteCharAt(i);
+							com.deleteCharAt(i);
+							com.deleteCharAt(i-1);
+							i=0;
+						}
+					}
+				}
+			}
+			
+			if(i < com.length()-2){ // one-letter words
+				if(com.charAt(i) == 'a'){
+					if(i < com.length()-3){
+						if(com.charAt(i+1) == ' '){
+							if(i > 0){
+								if(com.charAt(i-1) == ' '){
+									com.deleteCharAt(i);
+									com.deleteCharAt(i);
+									i=0;
+								}
+							} else if(i == 0){
+								com.deleteCharAt(i);
+								com.deleteCharAt(i);
+								i=0;
+							}
+						}
+					} else if(i == com.length()-2 && i > 0){
+						if(com.charAt(i-1) == ' '){
+							com.deleteCharAt(i);
+							com.deleteCharAt(i-1);
+							i=0;
+						}
+					}
+				}
+			}
+		}
+		return com;
+	}
+	
+}
