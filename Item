@@ -1,0 +1,74 @@
+package textAdventure;
+
+import java.util.HashMap;
+
+public class Item {
+	String name; // need it?
+	String description;
+	boolean isCarryable = true;
+
+	boolean weapon = false;	
+	boolean living = false;
+	boolean dead = true;
+	boolean key = false;
+	boolean isLocked = false;
+	String keyName;
+	
+	Item(String name, String descr) {
+		this.description = descr;
+		this.name = name;
+	}
+	
+	void lock(String keyName){
+		isLocked = true;
+		this.keyName = keyName;
+	}
+	
+	void isWeapon(){
+		weapon = true;
+	}
+	
+	void isKey(){
+		key = true;
+	}
+	
+	void noCarry(){
+		isCarryable = false;
+	}
+	
+	void isLiving() {
+		living = true;
+		dead = false;
+	}
+	
+	static void makeItems(HashMap<String, Room> roomList){
+		Item z = new Item("Wooden Sign", "The sign reads \"Shaq's Place\"");
+		roomList.get("lawn").itemList.add(z);
+		
+		z = new Item("Scuba Gear", "Makes you breathe water like a fish. Blub blub.");
+		roomList.get("attic").itemList.add(z);
+		
+		z = new Item("Attic Key","Opens up the attic at Shaq's Place.");
+		z.isKey();
+		z.lock("Spade");
+		roomList.get("beach").itemList.add(z);
+		
+		z = new Item("Spade", "Just a dirty old spade, nothing else.");
+		z.isKey();
+		z.isWeapon();
+		roomList.get("garden").itemList.add(z);
+		
+		z = new Item("Rock", "A pretty cool rock, you could keep it as a pet!");
+		z.isWeapon();
+		roomList.get("garden").itemList.add(z);
+		
+		z = new Item("Sword", "A poorly treated sword which looks like it will break upon use.");
+		z.isWeapon();
+		roomList.get("cave").itemList.add(z);
+		
+		z = new Item("Seagull", "A good companion for any adventure.");
+		z.isLiving();
+		z.noCarry();
+		roomList.get("beach").itemList.add(z);
+	}
+}
