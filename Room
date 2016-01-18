@@ -1,0 +1,147 @@
+package textAdventure;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class Room {
+	private String title; //name of item.
+	private String description; // short description
+	
+	private String N,S,E,W,U,D; //exits: Cardinal directions + up/down
+	private boolean air = true;
+	boolean accesible = true;
+	boolean isLocked = false;
+	String keyName;
+	String[] exits = {N,S,E,W,U,D};
+	
+	ArrayList<Item> itemList = new ArrayList<Item>();
+	
+	Room(String title, String desc) {
+		this.title = title;
+		this.description = desc;
+	}
+	
+	void setExits(String N, String S, String E, String W, String U, String D){
+		this.N = N;
+		this.S = S;
+		this.E = E;
+		this.W = W;
+		this.U = U;
+		this.D = D;
+		exits[0] = N;
+		exits[1] = S;
+		exits[2] = E;
+		exits[3] = W;
+		exits[4] = U;
+		exits[5] = D;
+	}
+	
+	void noAccess(){
+		
+	}
+	
+	void setLock(String keyName){
+		isLocked = true;
+		this.keyName = keyName;
+	}
+
+	void setWater(){
+		air = false;
+	}
+	boolean getAir() { return air; }
+	String getTitle() { return title; }
+	String getDesc() { return description; }
+	String getExit(String dir){
+		switch(dir){
+		case "north": case "n": return this.N;
+		case "south": case "s": return this.S;
+		case "east": case "e": return this.E;
+		case "west": case "w": return this.W;
+		case "up": case "u": return this.U;
+		case "down": case"d": return this.D;
+		default: return "";
+		}
+	}
+	
+	static void setUpRooms(HashMap<String, Room> roomList){
+		Room r = new Room("Castle Gates",
+				"You are at the foot of a giant castle. The gates to the north"
+				+ " are closed, and there is a small shack to the east\n"
+				+ "and a garden to the west. Other than that,"
+				+ "you are surrounded by trees.");
+		r.setExits("", "forest2", "lawn", "garden", "", "");
+		roomList.put("gates", r);
+		
+		r = new Room("Front Lawn",
+				"The front lawn to the west of the shack. There is a "
+				+ "hanging wooden sign that says \"Shaq's Place\"");
+		r.setExits("", "forest1", "shack", "gates", "", "");
+		roomList.put("lawn", r);
+		
+		r = new Room("Abandoned Shack","Owned by the one and only Shaquille O'Neal. Old and abandoned.\n"
+				+ "There is an attic with a closed door above you, and fresh air to the west.");
+		r.setExits("","","","lawn","attic","");
+		roomList.put("shack", r);
+		
+		r = new Room("Shaq's Attic", 
+				"Dusty and stuffy. Cobwebs everywhere and some old scuba gear sits on a chair.\n");
+		r.setExits("", "", "", "", "", "shack");
+		r.setLock("Attic Key");
+		roomList.put("attic", r);
+		
+		r = new Room("Royal Gardens", "The gardens owned by the king and his family.\n"
+				+ "To the east is the entrance to the castle, and the cliff down leads to the castle moat.\n"
+				+ "You see a spade in the dirt, and a few rocks.");
+		r.setExits("", "forest1", "gates", "forest1", "", "moat");
+		roomList.put("garden", r);
+		
+		r = new Room("Forest", "There are trees all around you, "
+				+ "and animals thriving everywhere.");
+		r.setExits("garden", "forest2", "gates", "forest1", "", "");
+		roomList.put("forest1", r);
+		
+		r = new Room("Forest", "There are trees all around you, "
+				+ "and animals thriving everywhere.");
+		r.setExits("forest3", "forest3", "forest2", "forest1", "", "");
+		roomList.put("forest2", r);
+		
+		r = new Room("Forest", "There are trees all around you,"
+				+ "and animals thriving everywhere.\n"
+				+ "You see a big blue area to the west, and a big looming rock to the north.");
+		r.setExits("cave", "forest1", "forest4", "beach", "", "");
+		roomList.put("forest3", r);
+		
+		r = new Room("Forest", "There are trees all around you, and animals thriving everywhere.");
+		r.setExits("forest1", "forest4", "forest4", "forest4", "", "");
+		roomList.put("forest4", r);
+		
+		r = new Room("Moat", "A rocky yet deep, watery moat. The watery passages go east and west.");
+		r.setExits("", "", "lakebed", "moat", "garden", "");
+		r.setWater();
+		roomList.put("moat", r);
+
+		r = new Room("Cave Entrance", "There is a cave to the north and forest all around you.");
+		r.setExits("", "forest2", "forest1", "forest3", "", "");
+		roomList.put("cave", r);
+		
+		r = new Room("Mountain", "The stalagmites are strong with this one.");
+		r.setExits("", "cave", "", "", "", "");
+		
+		r = new Room("Beach", "The shore of a big lake. Maybe you can go in the water?\n"
+				+ "A seagull says \"Caw!\" at your approach.");
+		r.setExits("beach", "beach", "forest2", "lake1", "", "");
+		roomList.put("beach", r);
+		
+		r = new Room("Lake", "You are underwater, you can't see that far.");
+		r.setExits("lake1", "lake1", "beach", "", "beach", "lakebottom");
+		r.setWater();
+		roomList.put("lake1", r);
+		
+		r = new Room("Lake Bed",
+				"The sand beneath your feet and water as far as the eye can see are"
+				+ "pretty neat. You might want to swim to the surface soon.");
+		r.setExits("", "", "", "", "lake1", "");
+		r.setWater();
+		roomList.put("lakebed", r);
+	}
+}
