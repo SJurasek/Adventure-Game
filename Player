@@ -1,7 +1,6 @@
 package textAdventure;
 
 public class Player {
-	String name = "jim";
 	int breathe = 3;
 	boolean alive = true;
 	boolean ringBell = false;
