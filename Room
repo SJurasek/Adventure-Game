@@ -36,10 +36,6 @@ public class Room {
 		exits[5] = D;
 	}
 	
-	void noAccess(){
-		
-	}
-	
 	void setLock(String keyName){
 		isLocked = true;
 		this.keyName = keyName;
