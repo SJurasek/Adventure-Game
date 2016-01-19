@@ -136,10 +136,15 @@ public class Room {
 		r.setExits("", "cEnter", "", "", "mountain", "");
 		roomList.put("cave", r);
 		
-		r = new Room("Mountain", "The stalagmites are strong with this one.",
-				"");
-		r.setExits("", "", "", "", "", "cave");
+		r = new Room("Mountain", "This treacherous landform provides no room for error, "
+		+ "one wrong step up may end up being your last.","");
+		r.setExits("", "", "", "", "Mountain Peak", "cave");
 		roomList.put("mountain", r);
+		
+		r = new Room("Mountain Peak", "The winds at the summit almost knock you off balance."
+				+ "The bell is in reach","");
+		r.setExits("", "", "", "", "", "Mountain");
+		roomList.put("mountainpeak", r);
 		
 		r = new Room("Beach", "The shore of a big lake. Maybe you can go in the water?\n"
 				+ "A rusty key lays buried in the sand, and a seagull says \"Caw!\" at your approach.",
