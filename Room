@@ -6,19 +6,26 @@ import java.util.HashMap;
 public class Room {
 	private String title; //name of item.
 	private String description; // short description
+	private String roomDesc;
 	
 	private String N,S,E,W,U,D; //exits: Cardinal directions + up/down
 	private boolean air = true;
 	boolean accesible = true;
 	boolean isLocked = false;
+	boolean visited = false;
 	String keyName;
 	String[] exits = {N,S,E,W,U,D};
 	
 	ArrayList<Item> itemList = new ArrayList<Item>();
 	
-	Room(String title, String desc) {
+	Room(String title, String desc, String desc2) {
 		this.title = title;
 		this.description = desc;
+		if(desc2 == ""){
+			this.roomDesc = desc;
+		} else {
+			this.roomDesc = desc2;
+		}
 	}
 	
 	void setExits(String N, String S, String E, String W, String U, String D){
@@ -61,88 +68,94 @@ public class Room {
 	
 	static void setUpRooms(HashMap<String, Room> roomList){
 		Room r = new Room("Castle Gates",
-				"You are at the foot of a giant castle. The gates to the north"
-				+ " are closed, and there is a small shack to the east\n"
+				"You are at the foot of a giant castle. There are gates to the north"
+				+ " that need to be opened, and there is a small shack to the east\n"
 				+ "and a garden to the west. Other than that,"
-				+ "you are surrounded by trees.");
+				+ "you are surrounded by trees.", "");
 		r.setExits("", "forest2", "lawn", "garden", "", "");
 		roomList.put("gates", r);
 		
 		r = new Room("Front Lawn",
 				"The front lawn to the west of the shack. There is a "
-				+ "hanging wooden sign that says \"Shaq's Place\"");
+				+ "hanging wooden sign that says \"Shaq's Place\"",
+				"The front lawn to the west of the shack and east of the castle gates.");
 		r.setExits("", "forest1", "shack", "gates", "", "");
 		roomList.put("lawn", r);
 		
 		r = new Room("Abandoned Shack","Owned by the one and only Shaquille O'Neal. Old and abandoned.\n"
-				+ "There is an attic with a closed door above you, and fresh air to the west.");
+				+ "There is an attic with accessed by a door above you, and fresh air to the west.", "");
 		r.setExits("","","","lawn","attic","");
 		roomList.put("shack", r);
 		
 		r = new Room("Shaq's Attic", 
-				"Dusty and stuffy. Cobwebs everywhere and some old scuba gear sits on a chair.\n");
+				"Dusty and stuffy. Cobwebs everywhere and some old scuba gear sits on a chair.\n",
+				"A dusty and old attic with a moldy cieling.");
 		r.setExits("", "", "", "", "", "shack");
 		r.setLock("Attic Key");
 		roomList.put("attic", r);
 		
 		r = new Room("Royal Gardens", "The gardens owned by the king and his family.\n"
 				+ "To the east is the entrance to the castle, and the cliff down leads to the castle moat.\n"
-				+ "You see a spade in the dirt, and a few rocks.");
+				+ "You see a spade in the dirt, and a few rocks.",
+				"West of the castle goats, the garden is above the moat and is surrounded by trees.");
 		r.setExits("", "forest1", "gates", "forest1", "", "moat");
 		roomList.put("garden", r);
 		
 		r = new Room("Forest", "There are trees all around you, "
-				+ "and animals thriving everywhere.");
+				+ "and animals thriving everywhere.", "");
 		r.setExits("garden", "forest2", "gates", "forest1", "", "");
 		roomList.put("forest1", r);
 		
 		r = new Room("Forest", "There are trees all around you, "
-				+ "and animals thriving everywhere.");
+				+ "and animals thriving everywhere.", "");
 		r.setExits("forest3", "forest3", "forest2", "forest1", "", "");
 		roomList.put("forest2", r);
 		
 		r = new Room("Forest", "There are trees all around you,"
 				+ "and animals thriving everywhere.\n"
-				+ "You see a big blue area to the west, and a big looming rock to the north.");
+				+ "You see a big blue area to the west, and a big looming rock to the north.", "");
 		r.setExits("cave", "forest1", "forest4", "beach", "", "");
 		roomList.put("forest3", r);
 		
-		r = new Room("Forest", "There are trees all around you, and animals thriving everywhere.");
+		r = new Room("Forest", "There are trees all around you, and animals thriving everywhere.", "");
 		r.setExits("forest1", "forest4", "forest4", "forest4", "", "");
 		roomList.put("forest4", r);
 		
-		r = new Room("Moat", "A rocky yet deep, watery moat. The watery passages go east and west.");
+		r = new Room("Moat", "A rocky yet deep, watery moat. The watery passages go east and west.", "");
 		r.setExits("", "", "lakebed", "moat", "garden", "");
 		r.setWater();
 		roomList.put("moat", r);
 
-		r = new Room("Cave Entrance", "There is a cave to the north and forest all around you.");
+		r = new Room("Cave Entrance", "There is a cave to the north and forest all around you.","");
 		r.setExits("cave", "forest2", "forest1", "forest3", "", "");
 		roomList.put("cEnter", r);
 		
 		r = new Room("Cave", "A dank and dimly lit cave, the stalagmites are strong with this one.\n"
 				+ "A crude old sword lies rusting on the ground.\n"
-				+ "Above you can just make out a sliver of light.");
+				+ "Above you can just make out a sliver of light.","A dank cave. There is light to the south and above.");
 		r.setExits("", "cEnter", "", "", "mountain", "");
 		roomList.put("cave", r);
 		
-		r = new Room("Mountain", "The stalagmites are strong with this one.");
+		r = new Room("Mountain", "The stalagmites are strong with this one.",
+				"");
 		r.setExits("", "", "", "", "", "cave");
 		roomList.put("mountain", r);
 		
 		r = new Room("Beach", "The shore of a big lake. Maybe you can go in the water?\n"
-				+ "A seagull says \"Caw!\" at your approach.");
+				+ "A rusty key lays buried in the sand, and a seagull says \"Caw!\" at your approach.",
+				"The shore of a big lake, with forest to the east and water to the west.");
 		r.setExits("beach", "beach", "forest2", "lake1", "", "");
 		roomList.put("beach", r);
 		
-		r = new Room("Lake", "You are underwater, you can't see that far.");
+		r = new Room("Lake", "You are underwater, you can't see that far.","");
 		r.setExits("lake1", "lake1", "beach", "", "beach", "lakebottom");
 		r.setWater();
 		roomList.put("lake1", r);
 		
 		r = new Room("Lake Bed",
-				"The sand beneath your feet and water as far as the eye can see are"
-				+ "pretty neat. You might want to swim to the surface soon.");
+				"The sand beneath your feet and dense water are"
+				+ "pretty neat. You might want to swim to the surface soon.\n"
+				+ "You see a locked chest. What does it contain?", "The water is too dense to move far, but you can swim up.");
 		r.setExits("", "", "", "", "lake1", "");
 		r.setWater();
 		roomList.put("lakebed", r);
