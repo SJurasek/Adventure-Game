@@ -30,7 +30,7 @@ public class AdventureMain {
 		Scanner kb = new Scanner(System.in);
 		System.out.println("Welcome to Zoink!");
 		System.out.println(currentRoom.getTitle());
-		System.out.println("==================="); //more equals needed
+		System.out.println("======================");
 		System.out.println(currentRoom.getDesc() + "\n");
 		
 		StringBuilder com = new StringBuilder("hello world!");
@@ -75,7 +75,26 @@ public class AdventureMain {
 			currentRoom = roomList.get(newRoom);
 			System.out.println(currentRoom.getTitle());
 			System.out.println("================");
-			System.out.println(currentRoom.getDesc());
+			if(!currentRoom.visited){
+				System.out.println(currentRoom.getDesc());
+				currentRoom.visited = true;
+			} else {
+				int x = 0;
+				System.out.println(currentRoom.getRoomDesc());
+				if(currentRoom.itemList.size() > 0){
+					System.out.print("You see ");
+					for(Item z : currentRoom.itemList){
+						if(x < currentRoom.itemList.size()-1 && currentRoom.itemList.size() > 1){
+							System.out.print("a " + z.name + ", ");
+						} else if(currentRoom.itemList.size() > 1){
+							System.out.println("and a " + z.name + ".");
+						} else {
+							System.out.println("a " + z.name);
+						}
+						x++;
+					}
+				}
+			}
 		}
 	}
 	
