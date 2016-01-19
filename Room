@@ -118,10 +118,11 @@ public class Room {
 
 		r = new Room("Cave Entrance", "There is a cave to the north and forest all around you.");
 		r.setExits("", "forest2", "forest1", "forest3", "", "");
-		roomList.put("cave", r);
+		roomList.put("cEnter", r);
 		
 		r = new Room("Mountain", "The stalagmites are strong with this one.");
-		r.setExits("", "cave", "", "", "", "");
+		r.setExits("", "cEnter", "", "", "", "");
+		roomList.put("cave", r);
 		
 		r = new Room("Beach", "The shore of a big lake. Maybe you can go in the water?\n"
 				+ "A seagull says \"Caw!\" at your approach.");
