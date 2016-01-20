@@ -138,12 +138,12 @@ public class Room {
 		
 		r = new Room("Mountain", "This treacherous landform provides no room for error, "
 		+ "one wrong step up may end up being your last.","");
-		r.setExits("", "", "", "", "Mountain Peak", "cave");
+		r.setExits("", "", "", "", "mountainpeak", "cave");
 		roomList.put("mountain", r);
 		
 		r = new Room("Mountain Peak", "The winds at the summit almost knock you off balance."
 				+ "The bell is in reach","");
-		r.setExits("", "", "", "", "", "Mountain");
+		r.setExits("", "", "", "", "", "mountain");
 		roomList.put("mountainpeak", r);
 		
 		r = new Room("Beach", "The shore of a big lake. Maybe you can go in the water?\n"
