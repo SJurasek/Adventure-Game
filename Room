@@ -165,5 +165,44 @@ public class Room {
 		r.setExits("", "", "", "", "lake1", "");
 		r.setWater();
 		roomList.put("lakebed", r);
+		
+		r = new Room("Courtyard", "You have finally entered the castle, but a door blocks your way to the king's lair. \n"
+				+ "To the wast is the market, and east is the knights' tower.", "");
+		r.setExits("lair", "gates", "tower", "market", "", "");
+		r.setLock("Old Bell");
+		roomList.put("courtyard", r);
+		
+		r = new Room("Farmer's Market", "An abandoned market, with old, rotting food in various merchant stands. \n"
+				+ "There lays an abandoned egg in a stack of hay.", 
+				"An old, abandoned marketplace. There is a path leading south to the courtyard, and a door to the east.");
+		r.setExits("", "courtyard", "tower", "", "", "");
+		roomList.put("market", r);
+		
+		r = new Room("Tower of Knights", "This tower is filled with defenses of every kind in order to protect the king. You spot a key dangling from a chain.\n"
+				+ "A staircase leads up to the roof, while a dark passage downward looks untrustworthy.\n"
+				+ "The door west leads to the marketplace, while the south door leads to the courtyard.",
+				"This tower of defense has a staircase leading up as well as down, and doorways leading west and south.");
+		r.setExits("","courtyard","","market","outlook","catacombs1");
+		roomList.put("tower", r);
+		
+		r = new Room("Catacombs", "As you walk into the room, you notice the air thickening and the door slamming shut behind you."
+				+ "The dungeon is wicked and stained with ancient blood and littered with rusted chains.", 
+				"These passages seem to go on forever.");
+		r.setExits("catacombs2", "catacombs2", "catacombs1", "catacombs1", "", "");
+		roomList.put("catacombs1", r);
+		
+		r = new Room("Catacombs", "These passages seem to go on forever. I don't think there's a way out.", "");
+		r.setExits("catacombs1", "catacombs2", "catacombs3", "catacombs1", "", "");
+		roomList.put("catacombs2", r);
+		
+		r = new Room("Catacombs", "These passages seem to go on forever.", "");
+		r.setExits("catacombs1", "cave", "catacombs2", "catacombs1", "", "");
+		roomList.put("catacombs3", r);
+		
+		r = new Room("Knight's Outlook",
+				"The overhead post of the royal knights, but it is empty now. You see a crossbow and a few bolts, as well as a.. teddy bear?", 
+				"The overhead post of the royal knights. A staircase leads downward.");
+		r.setExits("", "", "", "", "", "tower");
+		roomList.put("outlook", r);
 	}
 }
