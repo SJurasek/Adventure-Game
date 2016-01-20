@@ -52,6 +52,7 @@ public class Room {
 		air = false;
 	}
 	boolean getAir() { return air; }
+	String getRoomDesc() { return roomDesc; }
 	String getTitle() { return title; }
 	String getDesc() { return description; }
 	String getExit(String dir){
