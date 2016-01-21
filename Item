@@ -42,10 +42,10 @@ public class Item {
 	}
 	
 	static void makeItems(HashMap<String, Room> roomList){
-		Item z = new Item("Wooden Sign", "The sign reads \"Shaq's Place\"");
+		Item z = new Item("Sign", "The sign reads \"Shaq's Place\"");
 		roomList.get("lawn").itemList.add(z);
 		
-		z = new Item("Scuba Gear", "Makes you breathe water like a fish. Blub blub.");
+		z = new Item("Scubagear", "Makes you breathe water like a fish. Blub blub.");
 		roomList.get("attic").itemList.add(z);
 		
 		z = new Item("Attic Key","Opens up the attic at Shaq's Place.");
@@ -70,5 +70,20 @@ public class Item {
 		z.isLiving();
 		z.noCarry();
 		roomList.get("beach").itemList.add(z);
+		
+		z = new Item("Teddybear", "Soft and fluffy. Makes you feel safe.");
+		roomList.get("outlook").itemList.add(z);
+		
+		z = new Item("Crossbow", "A ranged weapon designed for killing your enemies from afar.");
+		z.isWeapon();
+		roomList.get("outlook").itemList.add(z);
+		
+		z = new Item("Ship Key", "A key that unlocks a ship of the royal fleet, but where could it be?");
+		z.isKey();
+		roomList.get("tower").itemList.add(z);
+		
+		z = new Item("Egg", "The egg of a seagull. Maybe its mother is nearby?");
+		z.isLiving();
+		roomList.get("market").itemList.add(z);
 	}
 }
