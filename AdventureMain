@@ -275,6 +275,16 @@ public class AdventureMain {
 			case "s": case "n": case "e": case "w": case "u": case "d":
 				moveToRoom(words[0]);
 				break;
+			
+			case "20":
+				if(currentRoom == roomList.get("mountainpeak")){
+					roomList.get("mountainpeak").riddle();
+					System.out.println("\"congratulations you may pass.\" -Troll");
+				} else {
+					System.out.println("21,22,23,24,...");
+				}
+				break;
+			
 			case "i": case "inventory": case "inv": case "items": case "item":
 				displayInventory();
 				break;
@@ -310,6 +320,14 @@ public class AdventureMain {
 					break;
 				}
 				break;
+			
+			case "ring":
+				if(currentRoom == roomList.get("belltower")){
+					roomList.get("gates").bellRung();
+					System.out.println("The bell rings through the kingdom and you hear gates liting in the distance.");
+				}
+				break;
+			
 			case "take": case "pickup":
 				takeItem(words[1]);
 				break;
