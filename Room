@@ -13,6 +13,7 @@ public class Room {
 	boolean accesible = true;
 	boolean isLocked = false;
 	boolean visited = false;
+	boolean container = false;
 	String keyName;
 	String[] exits = {N,S,E,W,U,D};
 	
@@ -73,7 +74,7 @@ public class Room {
 				+ " that need to be opened, and there is a small shack to the east\n"
 				+ "and a garden to the west. Other than that,"
 				+ "you are surrounded by trees.", "");
-		r.setExits("", "forest2", "lawn", "garden", "", "");
+		r.setExits("courtyard", "forest2", "lawn", "garden", "", "");
 		roomList.put("gates", r);
 		
 		r = new Room("Front Lawn",
@@ -115,7 +116,7 @@ public class Room {
 		r = new Room("Forest", "There are trees all around you,"
 				+ "and animals thriving everywhere.\n"
 				+ "You see a big blue area to the west, and a big looming rock to the north.", "");
-		r.setExits("cave", "forest1", "forest4", "beach", "", "");
+		r.setExits("cEnter", "forest1", "forest4", "beach", "", "");
 		roomList.put("forest3", r);
 		
 		r = new Room("Forest", "There are trees all around you, and animals thriving everywhere.", "");
@@ -174,10 +175,20 @@ public class Room {
 		r = new Room("Lake Bed",
 				"The sand beneath your feet and dense water are"
 				+ "pretty neat. You might want to swim to the surface soon.\n"
-				+ "You see a locked chest. What does it contain?", "The water is too dense to move far, but you can swim up.");
-		r.setExits("", "", "", "", "lake1", "");
+				+ "You see a locked ship. What does it contain?", "The water is too dense to move far, but you can swim up,"
+						+ " and a ship lays in the sand.");
+		r.setExits("ship", "", "", "", "lake1", "");
 		r.setWater();
 		roomList.put("lakebed", r);
+		
+		r = new Room("Royal Navy Ship",
+				"The room floods around you as you enter the secret cavern. "
+				+ "You spot a gold-plated key, definitely of high priority, as well as ",
+				"There are several compartments, but there is only one exit to the south.");
+		r.setWater();
+		r.setLock("Ship Key");
+		r.setExits("", "", "", "", "", "");
+		roomList.put("ship", r);
 		
 		r = new Room("Courtyard", "You have finally entered the castle, but a door blocks your way to the king's lair. \n"
 				+ "To the wast is the market, and east is the knights' tower.", "");
