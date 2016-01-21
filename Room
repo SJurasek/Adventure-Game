@@ -44,6 +44,14 @@ public class Room {
 		exits[5] = D;
 	}
 	
+	void riddle(){
+		this.N = "belltower";
+	}
+	
+	void bellRung(){
+		this.N = "courtyard";
+	}
+	
 	void setLock(String keyName){
 		isLocked = true;
 		this.keyName = keyName;
@@ -193,7 +201,6 @@ public class Room {
 		r = new Room("Courtyard", "You have finally entered the castle, but a door blocks your way to the king's lair. \n"
 				+ "To the wast is the market, and east is the knights' tower.", "");
 		r.setExits("lair", "gates", "tower", "market", "", "");
-		r.setLock("Old Bell");
 		roomList.put("courtyard", r);
 		
 		r = new Room("Farmer's Market", "An abandoned market, with old, rotting food in various merchant stands. \n"
