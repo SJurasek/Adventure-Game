@@ -13,7 +13,6 @@ public class Room {
 	boolean accesible = true;
 	boolean isLocked = false;
 	boolean visited = false;
-	boolean container = false;
 	String keyName;
 	String[] exits = {N,S,E,W,U,D};
 	
