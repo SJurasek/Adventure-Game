@@ -34,20 +34,43 @@ public class AdventureMain {
 		System.out.println(currentRoom.getDesc() + "\n");
 		
 		StringBuilder com = new StringBuilder("hello world!");
-		while(!end){
+		while(player.alive){
 			
-			System.out.print(">");
-			com = new StringBuilder(kb.nextLine().toLowerCase());
-			command(com);
+			if(!currentRoom.getAir()){
+				player.breathe--;
+			} else {
+				player.breathe = 2;
+				for(Item z : inventory){
+					if(z.name == "Scubagear"){
+						player.breathe = 7;
+					}
+				}
+			}
+			
+			if(player.breathe <= 0){
+				System.out.println("You begin to lose consciousness as water fills your lungs.");
+				player.alive = false;
+			}
+			
+			if(player.alive){
+				System.out.print(">");
+				com = new StringBuilder(kb.nextLine().toLowerCase());
+				command(com);
+			}
+			
+			
 			
 			for(Item z : currentRoom.itemList){
 				if(z.name == "Seagull"){
 					if(z.dead){
 						System.out.println("The gods smite you for your sinful actions.");
-						System.out.println("You have died. Game Over.");
-						System.exit(0);
+						player.alive = false;
 					}
 				}
+			}
+			
+			if(!player.alive){
+				System.out.println("You have died, game over.");
 			}
 		}
 		System.out.println("done");
