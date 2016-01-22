@@ -215,7 +215,7 @@ public class Room {
 		roomList.put("tower", r);
 		
 		r = new Room("Catacombs", "As you walk into the room, you notice the air thickening and the door slamming shut behind you."
-				+ "The dungeon is wicked and stained with ancient blood and littered with rusted chains.\n", 
+				+ "The catacombs are wicked and stained with ancient blood and littered with rusted chains.\n", 
 				"These passages seem to go on forever.");
 		r.setExits("catacombs2", "catacombs2", "catacombs1", "catacombs1", "", "");
 		roomList.put("catacombs1", r);
