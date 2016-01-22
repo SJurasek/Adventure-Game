@@ -10,7 +10,6 @@ public class Room {
 	
 	private String N,S,E,W,U,D; //exits: Cardinal directions + up/down
 	private boolean air = true;
-	boolean accesible = true;
 	boolean isLocked = false;
 	boolean visited = false;
 	String keyName;
