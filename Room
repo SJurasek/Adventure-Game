@@ -76,9 +76,9 @@ public class Room {
 	
 	static void setUpRooms(HashMap<String, Room> roomList){
 		Room r = new Room("Castle Gates",
-				"You are at the foot of a giant castle. There are gates to the north"
-				+ " that need to be opened, and there is a small shack to the east\n"
-				+ "and a garden to the west. Other than that,"
+				"You are at the foot of a giant castle. \nThere are gates to the north"
+				+ " that need to be opened. \nThere is a small shack to the east "
+				+ "and a garden to the west. \nOther than that,"
 				+ "you are surrounded by trees.", "");
 		r.setExits("courtyard", "forest2", "lawn", "garden", "", "");
 		roomList.put("gates", r);
@@ -198,7 +198,7 @@ public class Room {
 		
 		r = new Room("Courtyard", "You have finally entered the castle, but a door blocks your way to the king's lair. \n"
 				+ "To the wast is the market, and east is the knights' tower.", "");
-		r.setExits("lair", "gates", "tower", "market", "", "");
+		r.setExits("king", "gates", "tower", "market", "", "");
 		roomList.put("courtyard", r);
 		
 		r = new Room("Farmer's Market", "An abandoned market, with old, rotting food in various merchant stands. \n"
@@ -215,7 +215,7 @@ public class Room {
 		roomList.put("tower", r);
 		
 		r = new Room("Catacombs", "As you walk into the room, you notice the air thickening and the door slamming shut behind you."
-				+ "The dungeon is wicked and stained with ancient blood and littered with rusted chains.", 
+				+ "The dungeon is wicked and stained with ancient blood and littered with rusted chains.\n", 
 				"These passages seem to go on forever.");
 		r.setExits("catacombs2", "catacombs2", "catacombs1", "catacombs1", "", "");
 		roomList.put("catacombs1", r);
@@ -225,11 +225,29 @@ public class Room {
 		roomList.put("catacombs2", r);
 		
 		r = new Room("Catacombs", "These passages seem to go on forever.", "");
-		r.setExits("catacombs1", "cave", "catacombs2", "catacombs1", "", "");
+		r.setExits("catacombs1", "secret", "catacombs2", "catacombs1", "", "");
 		roomList.put("catacombs3", r);
 		
+		r = new Room("Super Secret Chamber of Suspicious Secrets\n", 
+				"As you exit the darkness of the catacombs, you enter more darkness.\n"
+				+ "You spot a vial of reisen resting on a table.\nThere is a passage south.",
+				"There is an exit to the south of this dark, secret room.");
+		r.setExits("","cave","","","","");
+		roomList.put("secret", r);
+		
+		r = new Room("King's Quarters", "The kings beautiful quarters are lavish and plated with gold.\n"
+				+  "The unrightful king lies sleeping in his bed, you know what to do","");
+		r.setExits("", "courtyard", "lavatory", "", "", "");
+		r.setLock("Knig's Key");
+		roomList.put("king", r);
+		
+		r = new Room("Kings's lavatory", "This extravagant bathroom has a golden toilet!\n","");
+		r.setExits("","","", "king", "", "");
+		roomList.put("lavatory", r);
+		
 		r = new Room("Knight's Outlook",
-				"The overhead post of the royal knights, but it is empty now. You see a crossbow and a few bolts, as well as a.. teddy bear?", 
+				"The overhead post of the royal knights, but it is empty now.\n"
+				+"You see a crossbow and a few bolts, as well as a.. teddy bear?", 
 				"The overhead post of the royal knights. A staircase leads downward.");
 		r.setExits("", "", "", "", "", "tower");
 		roomList.put("outlook", r);
