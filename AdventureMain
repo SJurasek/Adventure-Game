@@ -6,6 +6,15 @@ package textAdventure;
  * - You win 1 season pass to the LA Lakers games.
  */
 
+/*How the game ends: 
+ * Give the seagull it's egg, it flies away revealing the jewel encrusted crown.
+ * Kill shaq with reisen
+ */
+
+//TODO: Drowning warnings, Locked Items, Game ending
+//
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
