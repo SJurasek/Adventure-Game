@@ -39,14 +39,18 @@ public class AdventureMain {
 			if(!currentRoom.getAir()){
 				player.breathe--;
 			} else {
-				player.breathe = 2;
+				player.breathe = 3;
 				for(Item z : inventory){
 					if(z.name == "Scubagear"){
-						player.breathe = 7;
+						player.breathe = 10;
 					}
 				}
 			}
 			
+			if(player.breathe <3){
+				System.out.println("You are running out of breathe get to the surface quickly!");
+			}
+				
 			if(player.breathe <= 0){
 				System.out.println("You begin to lose consciousness as water fills your lungs.");
 				player.alive = false;
