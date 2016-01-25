@@ -35,6 +35,7 @@ public class Item {
 	
 	void poisonShaq() {
 		reisen = true;
+		dead = true;
 	}
 	
 	void noCarry(){
@@ -56,7 +57,11 @@ public class Item {
 		z = new Item("Attic Key","Opens up the attic at Shaq's Place.");
 		z.isKey();
 		z.lock("Spade");
-		roomList.get("moat").itemList.add(z);
+		roomList.get("beach").itemList.add(z);
+		
+		z = new Item("Troll", "Loud and grouchy, don't make him angry.");
+		z.isLiving();
+		roomList.get("mountainpeak").itemList.add(z);
 		
 		z = new Item("Spade", "Just a dirty old spade, nothing else.");
 		z.isKey();
@@ -112,4 +117,9 @@ public class Item {
 		z = new Item("King's Key", "The key of the king. it unlocks his chambers.");
 		z.isKey();
 		roomList.get("ship").itemList.add(z);
+		
+		z = new Item("Duck", "An extravagant yellow duck made of rubber. Squeaky!");
+		roomList.get("lavatory").itemList.add(z);
+		
 	}
+}
