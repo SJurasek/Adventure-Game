@@ -93,7 +93,7 @@ public class Room {
 		
 		r = new Room("Abandoned Shack","Owned by the one and only Shaquille O'Neal. Old and abandoned.\n"
 				+ "There is an attic with accessed by a door above you, and fresh air to the west.\n"
-				+ "Shaq: \"You must have travelled far to get here. I would like to make a request of you.\"\n"
+				+ "\nShaq: \"You must have travelled far to get here. I would like to make a request of you.\"\n"
 				+ "\"You see, there is an old man living in that castle, a 'king' they say...\"\n"
 				+ "\"What I want you to do is slay him and get me a crown so that I may become the new king of this great land.\"\n"
 				+ "\"I suggest exploring this kingdom, especially that mountain over there, to find a way inside the castle.\"\n"
@@ -104,7 +104,7 @@ public class Room {
 		roomList.put("shack", r);
 		
 		r = new Room("Shaq's Attic", 
-				"Dusty and stuffy. Cobwebs everywhere and some old scuba gear sits on a chair.\n",
+				"Dusty and stuffy. Cobwebs everywhere and some old scubagear sits on a chair.\n",
 				"A dusty and old attic with a moldy cieling.");
 		r.setExits("", "", "", "", "", "shack");
 		r.setLock("Attic Key");
@@ -153,7 +153,8 @@ public class Room {
 		roomList.put("cave", r);
 		
 		r = new Room("Mountain", "This treacherous landform provides no room for error, "
-		+ "one wrong step up may end up being your last. You can climb further up or go back down if you'd like.","");
+		+ "one wrong step up may end up being your last.\n "
+		+ "You can climb further up or go back down if you'd like.","");
 		r.setExits("", "", "", "", "mountainpeak", "cave");
 		roomList.put("mountain", r);
 		
@@ -178,7 +179,7 @@ public class Room {
 		roomList.put("beach", r);
 		
 		r = new Room("Lake", "You are underwater, you can't see that far.","");
-		r.setExits("lake1", "lake1", "beach", "", "beach", "lakebottom");
+		r.setExits("lake1", "lake1", "beach", "", "beach", "lakebed");
 		r.setWater();
 		roomList.put("lake1", r);
 		
