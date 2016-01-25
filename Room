@@ -193,8 +193,8 @@ public class Room {
 		
 		r = new Room("Royal Navy Ship",
 				"The room floods around you as you enter the secret cavern. "
-				+ "You spot a gold-plated key, definitely of high priority, as well as ",
-				"There are several compartments, but there is only one exit to the south.");
+				+ "You spot a gold-plated key, definitely of high priority.",
+				"There are several compartments, but there is only one exit, which is to the south.");
 		r.setWater();
 		r.setLock("Ship Key");
 		r.setExits("", "", "", "", "", "");
