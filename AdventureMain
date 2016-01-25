@@ -56,7 +56,7 @@ public class AdventureMain {
 				}
 			}
 			
-			if(player.breathe <3){
+			if(player.breathe < 3){
 				System.out.println("You are running out of breathe get to the surface quickly!");
 			}
 				
@@ -71,24 +71,115 @@ public class AdventureMain {
 				command(com);
 			}
 			
-			
-			
-			for(Item z : currentRoom.itemList){
-				if(z.name == "Seagull"){
-					if(z.dead){
-						System.out.println("The gods smite you for your sinful actions.");
-						player.alive = false;
-					}
-				}
-			}
+			gameCases();
 			
 			if(!player.alive){
 				System.out.println("You have died, game over.");
 			}
 		}
-		System.out.println("done");
 	}
 	
+	// various cases where you get a game over or win or solve puzzles that are associated with items 
+	void gameCases(){
+		for(Item z : currentRoom.itemList){
+			switch(z.name){
+			case "Seagull":
+				if(z.dead){
+					System.out.println("The gods smite you for your sinful actions.");
+					player.alive = false;
+					break;
+				}
+				for(Item y : currentRoom.itemList){
+					if(y.name == "Egg"){
+						System.out.println("The Seagull flies away with its child, or rather, its egg, and reveals a shiny Crown.\n");
+						Item x = new Item("Crown", "A gold-encrusted crown fit for the mightiest of kings.");
+						currentRoom.itemList.add(x);
+						currentRoom.itemList.remove(y);
+						currentRoom.itemList.remove(z);
+						break;
+					}
+				}
+				break;
+			case "Troll":
+				if(z.dead){
+					System.out.println("Rip troll. You can pass now.");
+					roomList.get("mountainpeak").riddle();
+					currentRoom.itemList.remove(z);
+				}
+				break;
+			case "Shaquille O'Neal":
+				if(z.dead && z.reisen){
+					System.out.println("You suddenly realise that Shaq is dead, and you can live your life the way you want.\n"
+							+ "Maybe you should claim the throne for yourself?");
+					currentRoom.itemList.remove(z);
+				} else if(z.dead && !z.reisen){
+					System.out.println("You realise your mistake, as Shaq starts lumbering towards you in a menacing manner.\n");
+					System.out.println("He hits you hard with his signature slam dunk move, and you pass out.");
+					player.alive = false;
+				}
+				break;
+			case "King":
+				if(z.dead){
+					System.out.println("You killed the king! And the throne has been succesfully re-established.\n");
+					for(Item y : roomList.get("shack").itemList){
+						if(y.name == "Shaquille O'Neal"){
+							System.out.println("Shaq comes running into the room, realising the great work you've done.\n");
+							System.out.println("\"Where is my crown?\" he asks.");
+							
+							for(Item x : inventory){
+								if(x.name == "Crown"){
+									System.out.println("You notice you have a crown in your fanny pack, and rush to give it to Shaq.\n");
+									System.out.println("\"Thanks for doing this for me, buddy\", the man says. \"I owe it to you to give you..\"");
+									System.out.println("\"A SEASON PASS TO LA LAKER GAMES\"");
+									System.out.println("You are beaming with excitement as you gladly accept Shaq's gift. You feel accomplished\n");
+									System.out.println("Congratulations! You have successfully beaten Zoink! Great job!");
+									System.exit(0);
+								}
+							}
+							System.out.println("\"I see you didn't make such an effort to worship me as your new king...\"");
+							System.out.println("\"And traitors must be dealt with. Goodbye, old friend.\"");
+							System.out.println("You try to understand why he is so upset, but alas you are stabbed in the back by your own friend.");
+							player.alive = false;
+						}
+					}
+					System.out.println("The throne room is empty. There is only one solution to help this: you must become the new king.");
+					System.out.println("You sit snuggly into the throne, and contemplate on your life. It has been well lived out.");
+					System.out.println("Congratulations! You have beaten Zoink! Good job!");
+					System.exit(0);
+				}
+				break;
+			case "Teddybear":
+				int x;
+				for(int i=0; i<6; i++){
+					x = (int)(Math.random()*6)+1;
+					switch(x){
+					case 1:
+						moveToRoom("n");
+						break;
+					case 2:
+						moveToRoom("s");
+						break;
+					case 3:
+						moveToRoom("e");
+						break;
+					case 4:
+						moveToRoom("w");
+						break;
+					case 5:
+						moveToRoom("u");
+						break;
+					case 6:
+						moveToRoom("d");
+						break;
+					}
+				}
+				System.out.println("The cursed teddybear is consuming your movements. You must put it down.");
+				break;
+			default:
+				break;
+			}
+		}
+	}
 	
 	//moves to room
 	void moveToRoom(String dir){
@@ -132,10 +223,6 @@ public class AdventureMain {
 				}
 			}
 		}
-	}
-	
-	void unlockItem(String itemName, String keyName){
-		
 	}
 	
 	//takes an item in the room
@@ -206,15 +293,16 @@ public class AdventureMain {
 			if(z.name.toLowerCase().contains(itemName)){
 				System.out.println(z.name+" - "+z.description);
 				return;
-			} else {
-				for(Item y : inventory){
-					if(y.name.toLowerCase().contains(itemName)){
-						System.out.println(y.name+" - "+y.description);
-						return;
-					}
-				}
 			}
 		}
+		
+		for(Item z : inventory){
+			if(z.name.toLowerCase().contains(itemName)){
+				System.out.println(z.name+" - "+z.description);
+				return;
+			}
+		}
+		
 		System.out.println("I don't see a " + itemName + " here");
 	}
 	
@@ -246,6 +334,7 @@ public class AdventureMain {
 		}
 	}
 	
+	//unlocks a room if you have the key
 	void unlockDoor(String door){
 		door = door.trim();
 		for(int i=0; i<currentRoom.exits.length; i++){
@@ -277,6 +366,50 @@ public class AdventureMain {
 		System.out.println("I don't see the room " + door + " here.");
 	}
 	
+	// properly kills shaq if you have the reisen
+	void poisonShaq(){
+		for(Item z : currentRoom.itemList){
+			if(z.name.toLowerCase().contains("shaq")){
+				for(Item y : inventory){
+					if(y.name == "Reisen"){
+						z.poisonShaq();
+						return;
+					}
+				}
+				System.out.println("Poison him with what? Apple juice? C'mon man!");
+				return;
+			}
+		}
+		System.out.println("I don't see Shaq around here.");
+		return;
+	}
+	
+	// Rings the bell to open the castle gates
+	void ring(){
+		if(currentRoom == roomList.get("belltower")){
+			roomList.get("gates").bellRung();
+			System.out.println("The bell rings through the kingdom and you hear gates lifting in the distance.");
+			return;
+		}
+		System.out.println("Ding dong ding dong ding dong!");
+	}
+	
+	// answers the troll's riddle, lets player pass and stuff
+	void answerRiddle(){
+		if(currentRoom == roomList.get("mountainpeak")){
+			roomList.get("mountainpeak").riddle();
+			System.out.println("\"Congratulations, you may pass.\" -Troll");
+			for(Item z : currentRoom.itemList){
+				if(z.name == "Troll"){
+					currentRoom.itemList.remove(z);
+					break;
+				}
+			}
+		} else {
+			System.out.println("21,22,23,24,...");
+		}
+	}
+	
 	//Executes specific commands
 	void execute(StringBuilder com){
 		String text = com.toString().trim().toLowerCase();
@@ -288,16 +421,9 @@ public class AdventureMain {
 			case "s": case "n": case "e": case "w": case "u": case "d":
 				moveToRoom(words[0]);
 				break;
-			
 			case "20":
-				if(currentRoom == roomList.get("mountainpeak")){
-					roomList.get("mountainpeak").riddle();
-					System.out.println("\"congratulations you may pass.\" -Troll");
-				} else {
-					System.out.println("21,22,23,24,...");
-				}
+				answerRiddle();
 				break;
-			
 			case "i": case "inventory": case "inv": case "items": case "item":
 				displayInventory();
 				break;
@@ -335,17 +461,16 @@ public class AdventureMain {
 				break;
 			
 			case "ring":
-				if(currentRoom == roomList.get("belltower")){
-					roomList.get("gates").bellRung();
-					System.out.println("The bell rings through the kingdom and you hear gates liting in the distance.");
+				if(words[1] == "bell"){
+					ring();
+				} else {
+					System.out.println("Ring a ding ding");
 				}
+				
 				break;
 			
 			case "take": case "pickup":
 				takeItem(words[1]);
-				break;
-			case "destroy": case "break":
-				// destroy/break words[1]
 				break;
 			case "drop":
 				dropItem(words[1]);
@@ -353,26 +478,33 @@ public class AdventureMain {
 			case "open": case "unlock":
 				unlockDoor(words[1]);
 				break;
+			case "poison":
+				switch(words[1]){
+				case "shaq": case "shaquille":
+					poisonShaq();
+					break;
+				default:
+					System.out.println("Poison sure is interesting.");
+					break;
+				}
+				break;
 			default:
 				System.out.println("You what?");
 				break;
-			}
-			break;
+			} break;
 		case 3:
 			switch(words[0]){
 			case "look":
 				switch(words[1]){
 				case "at":
-					inspect(words[1]);
+					inspect(words[2]);
+					break;
 				default:
 					System.out.println("Look what?");
 				}
 				break;
 			case "kill": case "murder":
 				kill(words[2], words[1]);
-				break;
-			case "open":
-				// open words[1] with words[2]
 				break;
 			case "pick":
 				switch(words[1]){
@@ -399,7 +531,7 @@ public class AdventureMain {
 		default: 
 			System.out.println("Does not compute.");
 			break;
-		}
+		}	
 	}
 	
 	// Which words do we remove from the command?
