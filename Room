@@ -44,6 +44,7 @@ public class Room {
 	
 	void riddle(){
 		this.N = "belltower";
+		this.D = "mountain";
 	}
 	
 	void bellRung(){
@@ -80,7 +81,7 @@ public class Room {
 				+ " that need to be opened. \nThere is a small shack to the east "
 				+ "and a garden to the west. \nOther than that,"
 				+ "you are surrounded by trees.", "");
-		r.setExits("courtyard", "forest2", "lawn", "garden", "", "");
+		r.setExits("", "forest2", "lawn", "garden", "", "");
 		roomList.put("gates", r);
 		
 		r = new Room("Front Lawn",
@@ -91,7 +92,14 @@ public class Room {
 		roomList.put("lawn", r);
 		
 		r = new Room("Abandoned Shack","Owned by the one and only Shaquille O'Neal. Old and abandoned.\n"
-				+ "There is an attic with accessed by a door above you, and fresh air to the west.", "");
+				+ "There is an attic with accessed by a door above you, and fresh air to the west.\n"
+				+ "Shaq: \"You must have travelled far to get here. I would like to make a request of you.\"\n"
+				+ "\"You see, there is an old man living in that castle, a 'king' they say...\"\n"
+				+ "\"What I want you to do is slay him and get me a crown so that I may become the new king of this great land.\"\n"
+				+ "\"I suggest exploring this kingdom, especially that mountain over there, to find a way inside the castle.\"\n"
+				+ "\"I am putting my trust in you, stranger. Don't let me down.\"",
+				"Owned by the one and only Shaquille O'Neal. Old and abandoned.\n"
+				+ "There is an attic with accessed by a door above you, and fresh air to the west.");
 		r.setExits("","","","lawn","attic","");
 		roomList.put("shack", r);
 		
@@ -145,25 +153,21 @@ public class Room {
 		roomList.put("cave", r);
 		
 		r = new Room("Mountain", "This treacherous landform provides no room for error, "
-		+ "one wrong step up may end up being your last.","");
+		+ "one wrong step up may end up being your last. You can climb further up or go back down if you'd like.","");
 		r.setExits("", "", "", "", "mountainpeak", "cave");
 		roomList.put("mountain", r);
 		
-		r = new Room("Mountain Peak", "The winds at the summit almost knock you off balance."
-				+ "The bell is in reach","");
-		r.setExits("", "", "", "", "", "mountain");
-		roomList.put("mountainpeak", r);
-		
-		r = new Room("Mountain Peak", "The winds at the summit almost knock you off balance."
-				+ "An old bell is in sight just to the north"
-				+ "A Troll emerges from the shadows and declares:"
-				+ " \"This bell will open the castle gates if rung however you must answer my riddle correcly in order to pass.\""
-				+ "In a new castle building containing 100 rooms.\n A painter is hired to paint the numbers 1-100 on the doors.\n How many times will he have to paint the number 8?", "");
+		r = new Room("Mountain Peak", "The winds at the summit almost knock you off balance. "
+				+ "An old bell is in sight just to the north\n"
+				+ "A Troll emerges from the shadows and declares: \n"
+				+ " \n\"This bell will open the castle gates if rung. However, you must answer my riddle correcly in order to pass.\""
+				+ "\nIn a new castle building containing 100 rooms.\n A painter is hired to paint the numbers 1-100 on the doors.\n How many times will he have to paint the number 8?", 
+				"The troll is nowhere to be seen, and you can go north to the belltower or climb downward. ");
 				//Answer is 20 ... 8,18,28,38,48,58,68,78,80,81,82,83,84,85,86,87,88,89,98
-		r.setExits("belltower", "", "", "", "", "mountain");
+		r.setExits("", "", "", "", "", "");
 		roomList.put("mountainpeak", r);
 
-		r = new Room("Belltower", "There is nothring here besides a large old bell.","");
+		r = new Room("Belltower", "There is nothing here besides a large old bell. Head south to go back.","");
 		r.setExits("", "mountainpeak", "", "", "", "");
 		roomList.put("belltower", r);
 		
@@ -235,8 +239,8 @@ public class Room {
 		r.setExits("","cave","","","","");
 		roomList.put("secret", r);
 		
-		r = new Room("King's Quarters", "The kings beautiful quarters are lavish and plated with gold.\n"
-				+  "The unrightful king lies sleeping in his bed, you know what to do","");
+		r = new Room("King's Quarters", "The king's beautiful quarters are lavish and plated with gold.\n"
+				+  "The unrightful king lies sleeping in his bed, you know what to do. Also to east is an open doorway.","");
 		r.setExits("", "courtyard", "lavatory", "", "", "");
 		r.setLock("Knig's Key");
 		roomList.put("king", r);
