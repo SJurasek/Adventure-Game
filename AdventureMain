@@ -268,7 +268,7 @@ public class AdventureMain {
 	
 	//displays user inventory
 	void displayInventory() {
-		System.out.println("Inventory");
+		System.out.println("Fanny Pack");
 		System.out.println("===========");
 		
 		if(inventory.size() == 0){
@@ -278,12 +278,6 @@ public class AdventureMain {
 		for(Item z : inventory){
 			System.out.println(z.name);
 		}
-	}
-	
-	//Executes word trimmer and then executes command
-	void command (StringBuilder com){
-		com = goodWords(com); // Get rid of unimportant words
-		execute(com); // Execute command
 	}
 	
 	//Inspect item to show name and description
@@ -368,11 +362,11 @@ public class AdventureMain {
 	
 	// properly kills shaq if you have the reisen
 	void poisonShaq(){
-		for(Item z : currentRoom.itemList){
+		for(Item z : currentRoom.itemList){ // is shaq in the room?
 			if(z.name.toLowerCase().contains("shaq")){
-				for(Item y : inventory){
+				for(Item y : inventory){ // do you have the reisen?
 					if(y.name == "Reisen"){
-						z.poisonShaq();
+						z.poisonShaq(); // refers to item.poisonShaq(), where dead is true and reisen is true
 						return;
 					}
 				}
@@ -384,10 +378,20 @@ public class AdventureMain {
 		return;
 	}
 	
+	void help() {
+		System.out.println("There are six directions: north, south, east, west, up, and down.");
+		System.out.println("Type in the direction which you want to go.");
+		System.out.println("You can take/pick up items as well as put them down.");
+		System.out.println("You can kill living things with various items.");
+		System.out.println("Keep an eye out for puzzles and secrets!");
+		System.out.println("You can unlock rooms if you have the correct key.");
+		System.out.println("Created by Scott Jurasek and Fraser Feeney.");
+	}
+	
 	// Rings the bell to open the castle gates
 	void ring(){
 		if(currentRoom == roomList.get("belltower")){
-			roomList.get("gates").bellRung();
+			roomList.get("gates").bellRung(); // sets the north exit of gates to courtyard
 			System.out.println("The bell rings through the kingdom and you hear gates lifting in the distance.");
 			return;
 		}
@@ -410,6 +414,12 @@ public class AdventureMain {
 		}
 	}
 	
+	//Executes word trimmer and then executes command
+	void command (StringBuilder com){
+		com = goodWords(com); // Get rid of unimportant words
+		execute(com); // Execute command
+	}
+	
 		//Executes specific commands
 	void execute(StringBuilder com){
 		String text = com.toString().trim().toLowerCase();
@@ -421,10 +431,15 @@ public class AdventureMain {
 			case "s": case "n": case "e": case "w": case "u": case "d":
 				moveToRoom(words[0]);
 				break;
+			case "help":
+				help();
+				break;
 			case "20":
 				answerRiddle();
 				break;
-			case "i": case "inventory": case "inv": case "items": case "item":
+			case "i": case "inventory": case "inv": 
+			case "items": case "item": case "backpack":
+			case "pack": case "fannypack":
 				displayInventory();
 				break;
 			case "exit":
@@ -439,6 +454,9 @@ public class AdventureMain {
 			break;
 		case 2:
 			switch(words[0]){
+			case "help":
+				help();
+				break;
 			case "inspect":
 				inspect(words[1]);
 				break;
@@ -450,14 +468,15 @@ public class AdventureMain {
 					break;
 				default:
 					System.out.println("What direction is that?");
-					break;
 				}
 				break;
 			
 			case "ring":
-				if(words[1] == "bell"){
+				switch(words[1]){
+				case "bell":
 					ring();
-				} else {
+					break;
+				default:
 					System.out.println("Ring a ding ding");
 				}
 				
@@ -482,20 +501,37 @@ public class AdventureMain {
 					break;
 				}
 				break;
+			case "fanny":
+				switch(words[1]){
+				case "pack":
+					displayInventory();
+					break;
+				default:
+					System.out.println("Okay then...");
+					break;
+				}
+				break;
 			default:
 				System.out.println("You what?");
 				break;
 			} break;
 		case 3:
 			switch(words[0]){
+			case "help":
+				help();
+				break;
 			case "poison":
-				if(words[1] == "shaq" || words[1] == "shaquille"){
-					if(words[2] == "o'neal" || words[2] == "reisen"){
+				switch(words[1]){
+				case "shaq": case "shaquille":
+					switch(words[2]){
+					case "o'neal": case "reisen":
 						poisonShaq();
-					} else {
+						break;
+					default:
 						System.out.println("Now why would anyone poison Shaq with " + words[2]);
 					}
-				} else {
+					break;
+				default:
 					System.out.println("Yes, poison is a thing.");
 				}
 				break;
@@ -509,11 +545,14 @@ public class AdventureMain {
 				}
 				break;
 			case "kill": case "murder":
-				if(words[1] == "shaq" || words[1] == "shaquille"){
-					if(words[2] == "reisen"){
+				switch(words[1]){
+				case "shaq": case "shaquille":
+					switch(words[2]){
+					case "reisen":
 						poisonShaq();
 						break;
 					}
+					break;
 				}
 				kill(words[2], words[1]);
 				break;
