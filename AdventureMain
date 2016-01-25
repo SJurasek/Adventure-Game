@@ -104,7 +104,6 @@ public class AdventureMain {
 				if(z.dead){
 					System.out.println("Rip troll. You can pass now.");
 					roomList.get("mountainpeak").riddle();
-					currentRoom.itemList.remove(z);
 				}
 				break;
 			case "Shaquille O'Neal":
@@ -256,7 +255,7 @@ public class AdventureMain {
 			return;
 		}
 		for(Item z : inventory){
-			if (z.name.contains(itemName)){
+			if (z.name.toLowerCase().contains(itemName)){
 				inventory.remove(z);
 				currentRoom.itemList.add(z);
 				System.out.println("You put down the " + itemName);
@@ -378,6 +377,7 @@ public class AdventureMain {
 		return;
 	}
 	
+	// helpful information
 	void help() {
 		System.out.println("There are six directions: north, south, east, west, up, and down.");
 		System.out.println("Type in the direction which you want to go.");
@@ -454,6 +454,9 @@ public class AdventureMain {
 			break;
 		case 2:
 			switch(words[0]){
+			case "kill":
+				System.out.println("With what?");
+				break;
 			case "help":
 				help();
 				break;
