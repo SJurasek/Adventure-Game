@@ -81,7 +81,7 @@ public class Item {
 		z.noCarry();
 		roomList.get("beach").itemList.add(z);
 		
-		z = new Item("Teddybear", "Soft and fluffy. Makes you feel safe.");
+		z = new Item("Teddybear", "A dangerous cursed hex. It controls your movements unexpectedly.");
 		roomList.get("outlook").itemList.add(z);
 		
 		z = new Item("Crossbow", "A ranged weapon designed for killing your enemies from afar.");
