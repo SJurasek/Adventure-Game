@@ -93,7 +93,7 @@ public class AdventureMain {
 					if(y.name == "Egg"){
 						System.out.println("The Seagull flies away with its child, or rather, its egg, and reveals a shiny Crown.\n");
 						Item x = new Item("Crown", "A gold-encrusted crown fit for the mightiest of kings.");
-						currentRoom.itemList.add(x);
+						currentRoom.itemList.add(x); // removing items is possible because i added one
 						currentRoom.itemList.remove(y);
 						currentRoom.itemList.remove(z);
 						break;
@@ -110,7 +110,6 @@ public class AdventureMain {
 				if(z.dead && z.reisen){
 					System.out.println("You suddenly realise that Shaq is dead, and you can live your life the way you want.\n"
 							+ "Maybe you should claim the throne for yourself?");
-					currentRoom.itemList.remove(z);
 				} else if(z.dead && !z.reisen){
 					System.out.println("You realise your mistake, as Shaq starts lumbering towards you in a menacing manner.\n");
 					System.out.println("He hits you hard with his signature slam dunk move, and you pass out.");
@@ -139,6 +138,7 @@ public class AdventureMain {
 							System.out.println("\"And traitors must be dealt with. Goodbye, old friend.\"");
 							System.out.println("You try to understand why he is so upset, but alas you are stabbed in the back by your own friend.");
 							player.alive = false;
+							return;
 						}
 					}
 					System.out.println("The throne room is empty. There is only one solution to help this: you must become the new king.");
@@ -147,7 +147,25 @@ public class AdventureMain {
 					System.exit(0);
 				}
 				break;
-			case "Teddybear":
+			default:
+				break;
+			}
+		}
+		for(Item z : roomList.get("mountainpeak").itemList){
+			if(currentRoom != roomList.get("mountainpeak") && z.name == "Troll" && z.dead){
+				roomList.get("mountainpeak").itemList.remove(z);
+				break;
+			}
+		}
+		for(Item z : roomList.get("shack").itemList){
+			if(currentRoom != roomList.get("shack") && z.name == "Shaquille O'Neal" && z.dead){
+				roomList.get("shack").itemList.remove(z);
+				break;
+			}
+		}
+		
+		for(Item z : inventory){
+			if(z.name == "Teddybear"){
 				int x;
 				for(int i=0; i<6; i++){
 					x = (int)(Math.random()*6)+1;
@@ -173,9 +191,6 @@ public class AdventureMain {
 					}
 				}
 				System.out.println("The cursed teddybear is consuming your movements. You must put it down.");
-				break;
-			default:
-				break;
 			}
 		}
 	}
@@ -313,18 +328,19 @@ public class AdventureMain {
 								return;
 							} else {
 								System.out.println("You can't kill " + z.name + "with that.");
+								return;
 							}
-						} else {
-							System.out.println("That weapon is not in your inventory.");
 						}
 					}
+					System.out.println("That weapon is not in your inventory.");
+					return;
 				} else {
 					System.out.println("You can't kill something that isn't alive.");
+					return;
 				}
-			} else {
-				System.out.println("I don't see anything like that here.");
 			}
 		}
+		System.out.println("I don't see anything like that here.");
 	}
 	
 	//unlocks a room if you have the key
@@ -340,15 +356,11 @@ public class AdventureMain {
 									roomList.get(currentRoom.exits[i]).isLocked = false;
 									System.out.println("You unlocked the door to " + roomList.get(currentRoom.exits[i]).getTitle() + "!");
 									return;
-								} else {
-									System.out.println("You don't have the correct key for that.");
-									return;
 								}
-							} else {
-								System.out.println("You don't have any keys.");
-								return;
 							}
 						}
+						System.out.println("You don't have the correct key for that.");
+						return;
 					} else {
 						System.out.println("That room is unlocked, you can just walk in!");
 						return;
@@ -538,6 +550,12 @@ public class AdventureMain {
 					System.out.println("Yes, poison is a thing.");
 				}
 				break;
+			case "take": case "pickup":
+				takeItem(words[1] + " " + words[2]);
+				break;
+			case "drop":
+				dropItem(words[1] + " " + words[2]);
+				break;
 			case "look":
 				switch(words[1]){
 				case "at":
@@ -546,6 +564,9 @@ public class AdventureMain {
 				default:
 					System.out.println("Look what?");
 				}
+				break;
+			case "inspect":
+				inspect(words[1]+" "+words[2]);
 				break;
 			case "kill": case "murder":
 				switch(words[1]){
