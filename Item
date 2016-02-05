@@ -61,10 +61,14 @@ public class Item {
 		
 		z = new Item("Troll", "Loud and grouchy, don't make him angry.");
 		z.isLiving();
+		z.noCarry();
 		roomList.get("mountainpeak").itemList.add(z);
 		
+		z = new Item("Old Bell", "A crumbling old bell with moss growing on it. Maybe you should ring it?");
+		z.noCarry();
+		roomList.get("belltower").itemList.add(z);
+		
 		z = new Item("Spade", "Just a dirty old spade, nothing else.");
-		z.isKey();
 		z.isWeapon();
 		roomList.get("garden").itemList.add(z);
 		
