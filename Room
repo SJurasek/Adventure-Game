@@ -113,7 +113,7 @@ public class Room {
 		r = new Room("Royal Gardens", "The gardens owned by the king and his family.\n"
 				+ "To the east is the entrance to the castle, and the cliff down leads to the castle moat.\n"
 				+ "You see a spade in the dirt, and a few rocks.",
-				"West of the castle goats, the garden is above the moat and is surrounded by trees.");
+				"West of the castle gates, the garden is above the moat and is surrounded by trees.");
 		r.setExits("", "forest1", "gates", "forest1", "", "moat");
 		roomList.put("garden", r);
 		
@@ -168,7 +168,8 @@ public class Room {
 		r.setExits("", "", "", "", "", "");
 		roomList.put("mountainpeak", r);
 
-		r = new Room("Belltower", "There is nothing here besides a large old bell. Head south to go back.","");
+		r = new Room("Belltower", "There is nothing here besides a large old bell. Head south to go back.",
+				"This is an ancient tower, maybe it has some importance? Head south to go back.");
 		r.setExits("", "mountainpeak", "", "", "", "");
 		roomList.put("belltower", r);
 		
@@ -179,14 +180,14 @@ public class Room {
 		roomList.put("beach", r);
 		
 		r = new Room("Lake", "You are underwater, you can't see that far.","");
-		r.setExits("lake1", "lake1", "beach", "", "beach", "lakebed");
+		r.setExits("lake1", "lake1", "beach", "lake1", "beach", "lakebed");
 		r.setWater();
 		roomList.put("lake1", r);
 		
 		r = new Room("Lake Bed",
 				"The sand beneath your feet and dense water are"
-				+ "pretty neat. You might want to swim to the surface soon.\n"
-				+ "You see a locked ship. What does it contain?", "The water is too dense to move far, but you can swim up,"
+				+ " pretty neat. You might want to swim to the surface soon.\n"
+				+ "You see a locked ship to the north. What does it contain?", "The water is too dense to move far, but you can swim up,"
 						+ " and a ship lays in the sand.");
 		r.setExits("ship", "", "", "", "lake1", "");
 		r.setWater();
@@ -198,7 +199,7 @@ public class Room {
 				"There are several compartments, but there is only one exit, which is to the south.");
 		r.setWater();
 		r.setLock("Ship Key");
-		r.setExits("", "", "", "", "", "");
+		r.setExits("", "lakebed", "", "", "", "");
 		roomList.put("ship", r);
 		
 		r = new Room("Courtyard", "You have finally entered the castle, but to the north a door blocks your way to the king's lair. \n"
@@ -219,8 +220,8 @@ public class Room {
 		r.setExits("","courtyard","","market","outlook","catacombs1");
 		roomList.put("tower", r);
 		
-		r = new Room("Catacombs", "As you walk into the room, you notice the air thickening and the door slamming shut behind you."
-				+ "The catacombs are wicked and stained with ancient blood and littered with rusted chains.\n", 
+		r = new Room("Catacombs", "As you walk into the room, you notice the air thickening and the door slamming shut behind you.\n"
+				+ "The catacombs are wicked and stained with ancient blood and littered with rusted chains.", 
 				"These passages seem to go on forever.");
 		r.setExits("catacombs2", "catacombs2", "catacombs1", "catacombs1", "", "");
 		roomList.put("catacombs1", r);
